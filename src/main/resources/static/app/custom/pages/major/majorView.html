@@ -1,0 +1,224 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+        	  <div class="md-card">
+			     <div class="md-card-content">  
+			     	<div class="uk-grid" data-uk-grid-margin>   
+			     		<div class="uk-width-medium-7-10">
+                	   		<h3 style="margin-top:7px;"><span>Компаний нэр</span>: {{mainobj.orgname}}, <span>Тайлангийн огноо</span>: {{mainobj.audityear}}, <span>Регистр</span>: {{mainobj.regnum}} </h3>
+                	    </div> 
+                	    <div class="uk-width-medium-3-10 uk-text-right">
+                	    	<!-- <a class="md-btn md-btn-primary md-btn-wave-light" data-uk-modal="{target:'#modal_header_footer_form'}" href="javascript:void(0)">Маягт</a> -->
+                       		<a class="md-btn md-btn-primary md-btn-wave-light" ng-click="modalExcel()"  href="javascript:void(0)">Excel</a>
+                        </div> 
+                    </div>                  
+			     </div>
+			 </div> 
+             <div class="md-card">
+			     <div class="md-card-content">
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1">   
+			             	 <kendo-grid options="mainGridOptions">
+					          <div k-detail-template>                
+					            <div class="dgrid" kendo-grid k-options="ordersGridOptions(dataItem)">
+					            </div>               
+					          </div>
+					         </kendo-grid> 
+			             </div> 			                       
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+    <script type="text/x-kendo-template" id="downtemp">			
+		#if (data7=='А-4') {#
+			<div class="md-btn-group">
+                <a href="javascript:void(0)" class="md-btn md-btn-small md-btn-danger md-btn-wave" style='line-height:31px !important;' ng-click='selectA4(planid,#:formid#)'>A^4</a>
+                <a href="javascript:void(0)" class="md-btn md-btn-small md-btn-primary md-btn-wave" style='line-height:31px !important;' ng-click='exportExcel(dataItem)'>#:data7#</a>
+            </div>
+		# }
+		else if (data7=='В-3.1Т' || data7=='В-3.2Т' || data7=='В-3.3Т' || data7=='В-3.4Т' || data7=='В-3.5Т' || data7=='В-3.6Т' || data7=='В-3.7Т'){# 
+			<div class="md-btn-group">
+                <a href="javascript:void(0)" class="md-btn md-btn-small md-btn-warning md-btn-wave" style='line-height:31px !important;' ng-click='selectB31(planid,#:formid#)'>^#:data7#</a>
+                <a href="javascript:void(0)" class="md-btn md-btn-small md-btn-primary md-btn-wave" style='line-height:31px !important;' ng-click='exportExcel(dataItem)'>#:data7#</a>
+            </div>
+		#} 
+		else{# 
+			<a class='md-btn md-btn-flat md-btn-flat-primary md-btn-wave' target='_self' download='{{item.filename}}' ng-click='exportExcel(dataItem)'>#:data7#</a>
+		#} #	
+	</script>
+	<script type="text/x-kendo-template" id="uptemp">		
+	
+	# if (data5== 1) { #
+    	#if(data6==1) { #
+    		<a href='javascript:void(0)' ng-click='uploadExcel("+$stateParams.issueId+",#:formid#)' class='md-btn md-btn-facebook md-btn-small md-btn-icon'><i style='margin-top:7px;' class='material-icons'>cloud_upload</i>Хавсрах</a>
+    	#}
+		else{#
+			# if (data10==1) { #
+				<a href='javascript:void(0)' ng-click='uploadExcel("+$stateParams.issueId+",#:formid#)' class='md-btn disabled md-btn-small md-btn-icon'><i style='margin-top:7px;' class='material-icons'>cloud_upload</i>Хавсрах</a>
+			#}
+			else{#
+				<a href='javascript:void(0)' ng-click='uploadExcel("+$stateParams.issueId+",#:formid#)' class='md-btn md-btn-gplus md-btn-small md-btn-icon'><i style='margin-top:7px;' class='material-icons'>cloud_upload</i>Хавсрах</a>
+			#}#
+		#}#
+    #}#
+
+		
+	</script>
+  	<script type="text/x-kendo-template" id="template">
+       <div class="refreshBtnContainer">
+            <button ng-click="toolbarClick()" class=" k-button" title="Refresh"><span class="k-icon k-i-reload"></span></button>
+       </div>                
+    </script> 
+
+    <div class="uk-modal" id="modal_a_4">
+        <div class="uk-modal-dialog">
+        	<form name="form" id="form_validation" class="uk-form-stacked">
+            <div class="uk-modal-header">
+                <h3 class="uk-modal-title">Үнэ цэнээр материаллаг байдлыг тодорхойлох</h3>
+            </div>
+            <hr>
+            <div class="uk-grid">
+                 <div class="uk-width-1-1">
+                 	 <table class="uk-table uk-table-striped">
+                         <thead>
+	                         <tr>
+	                             <th>Материаллаг байдлын суурь үзүүлэлт</th>
+	                             <th>Санхүүгийн тайлангийн дүнг оруул</th>
+	                             <!-- <th>Доод түвшин</th>
+	                             <th>Сонгосон түвшин</th>
+	                             <th>Дээд түвшин</th> -->
+	                         </tr>
+                         </thead>
+                         <tbody>
+	                         <tr ng-repeat="item in a4">
+	                             <td>{{item.data1}}</td>
+	                             <td>{{item.data2}}</td>
+	                             <!-- <td>{{item.data3}}</td>
+	                             <td>{{item.data4}}</td>
+	                             <td>{{item.data5}}</td> -->
+	                         </tr>
+                         </tbody>
+                     </table>
+                 </div>
+            </div>
+            <div class="uk-grid">
+                 <div class="uk-width-medium-1-2">
+                     <div class="parsley-row">
+                         <input config="selectize_val_config" options="selectize_val_options" ng-model="a4data.dans" required name="val_select" selectize />
+                     </div>
+                 </div>
+                 <div class="uk-width-medium-1-2">
+                     <div class="parsley-row">
+                         <label class="uk-form-label">Heard us by*</label>
+                         <input id="fullname" type="number" name="fullname" required  ng-model="a4data.percent" class="md-input" md-input />
+                     </div>
+                 </div>
+            </div> 
+            <hr>
+            <div class="uk-modal-footer uk-text-right">
+           		<button ng-click="submitA4()" type="submit" ng-show="sendBtn" class="md-btn  md-btn-wave-light">Хадгалах</button> 
+                <button type="button" class="md-btn md-btn-primary md-btn-wave-light uk-modal-close">Хаах</button>
+            </div>
+            </form>
+        </div>
+    </div> 
+     
+    <div class="uk-modal" id="modal_excel_upload">
+        <div class="uk-modal-dialog">
+        	<form name="formUpload">
+            <div class="uk-modal-header">
+                <h3 class="uk-modal-title">Маягт хавсрах</h3>
+            </div>
+            <hr>
+            <div class="uk-grid">
+                 <div class="uk-width-1-1">
+                     <div id="file_upload-drop" class="uk-file-upload">
+                         <p class="uk-text">Excel файл</p>
+                         <p class="uk-text-muted uk-text-small uk-margin-small-bottom">or</p>
+                         <span class="uk-form-file md-btn" ngf-select ngf-max-size="20MB" accept=".xlsx, .xls" ng-model="uploadfile" required="" name="uploadfile">сонгох</span>
+                         <div style="height:15px;">
+                         	<p class="uk-text-muted uk-text-small uk-margin-small-bottom" style="height:15px;" ng-show="formUpload.uploadfile.$error.required">*required</p>
+                         </div>
+                         <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                     </div>
+                     <div class="file_upload-progressbar uk-progress uk-hidden">
+                         <div class="uk-progress-bar" style="width:{{file.progress}}%" ng-bind="file.progress + '%'" class="ng-binding">0%</div>
+                     </div>
+                 </div>
+            </div> 
+            <hr>
+            <div class="uk-modal-footer uk-text-right">
+           		<button ng-click="submitUpload()" type="submit" ng-show="sendBtn" class="md-btn  md-btn-wave-light">Илгээх</button> 
+                <button type="button" class="md-btn md-btn-primary md-btn-wave-light uk-modal-close">Хаах</button>
+            </div>
+            </form>
+        </div>
+    </div> 
+     
+    <div class="uk-modal" id="modal_header_footer_print">
+        <div class="uk-modal-dialog">
+        	<form name="form">
+            <div class="uk-modal-header">
+                <h3 class="uk-modal-title">Тайлан татах</h3>
+            </div>
+            <hr>
+            <div class="uk-grid">
+                 <div class="uk-width-1-1">
+                     <div id="file_upload-drop" class="uk-file-upload">
+                         <p class="uk-text">Drop file to upload</p>
+                         <p class="uk-text-muted uk-text-small uk-margin-small-bottom">or</p>
+                         <span class="uk-form-file md-btn" ngf-select ngf-max-size="20MB" accept=".xlsx, .xls" ng-model="file" required="" name="file">choose file</span>
+                         <div style="height:15px;">
+                         	<p class="uk-text-muted uk-text-small uk-margin-small-bottom" ng-show="form.file.$error.required">*required</p>
+                         </div>
+                        
+                         <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                     </div>
+                     <div class="file_upload-progressbar uk-progress">
+                         <div class="uk-progress-bar" style="width:{{file.progress}}%" ng-bind="file.progress + '%'" class="ng-binding">0%</div>
+                     </div>
+                 </div>
+             </div> 
+            <div class="uk-grid" id="acc" ng-if="ars.length>0">
+                <div class="uk-width-1-1">
+                	<div class="uk-overflow-container">
+                        <table class="uk-table uk-table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Хүснэгтийн нэр</th>
+                                <th>Дансны код (1)</th>
+                                <th>Дансны код (2)</th>
+                                <th>Зөрүү</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in ars">
+                                <td>{{item.sheet}}</td>
+                                <td>{{item.code1}}</td>
+                                <td>{{item.code2}}</td>
+                                <td>{{item.dif}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>  
+            <hr>
+            <div class="uk-modal-footer uk-text-right">
+           		<button ng-click="submit()" type="submit" ng-show="sendBtn" class="md-btn  md-btn-wave-light">Илгээх</button> 
+                <button type="button" class="md-btn md-btn-primary md-btn-wave-light uk-modal-close">Хаах</button>
+            </div>
+            </form>
+        </div>
+    </div> 
+                       
+	<footer id="footer">
+	    <span style="display:block;  text-align:right;">&copy; 2016-2017 <a href="www.staus.mn">Tyder LLC</a>, All rights reserved.</span>
+	</footer>
+	
+	<style>
+		.k-grid-content table tbody{
+			cursor: pointer;
+		}
+	</style>
+	
