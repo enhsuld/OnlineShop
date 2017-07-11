@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping(value="/")
+/*    @GetMapping(value="/")
     public String index(){
         return "index";
     }
@@ -19,7 +19,7 @@ public class HomeController {
     @GetMapping(value="/login")
     public String login(){
         return "login";
-    }
+    }*/
 
     @GetMapping(value="post/{id}")
     public String singlePost(){
