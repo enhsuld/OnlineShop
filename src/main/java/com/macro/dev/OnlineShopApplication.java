@@ -1,13 +1,15 @@
 package com.macro.dev;
 
 import com.macro.dev.config.CustomUserDetails;
-import com.macro.dev.entities.Role;
-import com.macro.dev.entities.User;
+import com.macro.dev.models.LutRole;
+import com.macro.dev.models.LutUser;
 import com.macro.dev.repositories.UserRepository;
 import com.macro.dev.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Arrays;
 
 @SpringBootApplication
+@EntityScan(basePackageClasses = {OnlineShopApplication.class, Jsr310JpaConverters.class})
 public class OnlineShopApplication {
 
 	@Autowired
@@ -34,7 +37,7 @@ public class OnlineShopApplication {
 	@Autowired
 	public void authenticationManager(AuthenticationManagerBuilder builder, UserRepository repository, UserService userService) throws Exception {
 		if (repository.count()==0)
-			userService.save(new User("admin", "adminPassword", Arrays.asList(new Role("USER"), new Role("ACTUATOR") , new Role("ADMIN"))));
+			userService.save(new LutUser("admin", "adminPassword", Arrays.asList(new LutRole("USER"), new LutRole("ACTUATOR") , new LutRole("ADMIN"))));
 		builder.userDetailsService(userDetailsService(repository)).passwordEncoder(passwordEncoder);
 	}
 

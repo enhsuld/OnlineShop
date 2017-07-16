@@ -7,7 +7,8 @@ angular
         '$state',
         'utils',
         'mainService',
-        function ($scope,$rootScope,$http,$state,utils, mainService, $cookies,$httpParamSerializer) {
+        '$cookies',
+        function ($scope,$rootScope,$http,$state,utils, mainService, $cookies) {
        	
 				
 
@@ -122,7 +123,7 @@ angular
                     $http.defaults.headers.common.Authorization =
                         'Bearer ' + data.data.access_token;
                     $cookies.put("access_token", data.data.access_token);
-                    window.location.href="index";
+                    $state.go('restricted.dashboard');
                 });
             }
 

@@ -1,6 +1,6 @@
 package com.macro.dev.service;
 
-import com.macro.dev.entities.Comment;
+import com.macro.dev.models.Comment;
 import com.macro.dev.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
 package com.macro.dev.repositories;
 
-import com.macro.dev.entities.User;
+import com.macro.dev.models.LutUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * User repository for CRUD operations.
+ * LutUser repository for CRUD operations.
  */
-public interface UserRepository extends JpaRepository<User,Long> {
-    User findByUsername(String username);
+public interface UserRepository extends JpaRepository<LutUser,Long> {
+    LutUser findByUsername(String username);
 }

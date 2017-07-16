@@ -1,9 +1,9 @@
 package com.macro.dev.controllers;
 
 import com.macro.dev.config.CustomUserDetails;
-import com.macro.dev.entities.Comment;
-import com.macro.dev.entities.Post;
-import com.macro.dev.entities.User;
+import com.macro.dev.models.Comment;
+import com.macro.dev.models.Post;
+import com.macro.dev.models.LutUser;
 import com.macro.dev.pojos.CommentPojo;
 import com.macro.dev.service.CommentService;
 import com.macro.dev.service.PostService;
@@ -72,7 +72,7 @@ public class BlogController {
     public boolean postComment(@RequestBody CommentPojo comment){
         Post post = postService.find(comment.getPostId());
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User creator = userService.getUser(userDetails.getUsername());
+        LutUser creator = userService.getUser(userDetails.getUsername());
         if(post == null || creator == null)
             return false;
 

@@ -1,6 +1,6 @@
 package com.macro.dev.repositories;
 
-import com.macro.dev.entities.Post;
+import com.macro.dev.models.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

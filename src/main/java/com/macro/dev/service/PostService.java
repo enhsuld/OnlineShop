@@ -1,7 +1,7 @@
 package com.macro.dev.service;
 
-import com.macro.dev.entities.Post;
-import com.macro.dev.entities.User;
+import com.macro.dev.models.Post;
+import com.macro.dev.models.LutUser;
 import com.macro.dev.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public List<Post> findByUser(User user){
+    public List<Post> findByUser(LutUser user){
         return postRepository.findByCreatorId(user.getId());
     }
 

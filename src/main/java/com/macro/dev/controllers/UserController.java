@@ -1,7 +1,7 @@
 package com.macro.dev.controllers;
 
-import com.macro.dev.entities.Role;
-import com.macro.dev.entities.User;
+import com.macro.dev.models.LutRole;
+import com.macro.dev.models.LutUser;
 import com.macro.dev.pojos.UserRegistration;
 import com.macro.dev.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +35,12 @@ public class UserController {
         if(pattern.matcher(userRegistration.getUsername()).find())
             return "No special characters are allowed in the username";
 
-        userService.save(new User(userRegistration.getUsername(), userRegistration.getPassword(), Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
-        return "User created";
+        userService.save(new LutUser(userRegistration.getUsername(), userRegistration.getPassword(), Arrays.asList(new LutRole("USER"), new LutRole("ACTUATOR"))));
+        return "LutUser created";
     }
 
     @GetMapping(value = "/users")
-    public List<User> users(){
+    public List<LutUser> users(){
         return userService.getAllUsers();
     }
 

@@ -1,6 +1,6 @@
 package com.macro.dev.repositories;
 
-import com.macro.dev.entities.Comment;
+import com.macro.dev.models.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

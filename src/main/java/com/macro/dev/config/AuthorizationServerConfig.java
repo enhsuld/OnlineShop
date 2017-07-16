@@ -1,22 +1,21 @@
 package com.macro.dev.config;
 
 import java.util.Arrays;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -28,6 +27,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Configures the authorization server.
@@ -37,6 +37,8 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 @Configuration
 @PropertySource({ "classpath:persistence.properties" })
 @EnableAuthorizationServer
+@ComponentScan
+@EnableTransactionManagement
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
@@ -144,5 +146,26 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenStore tokenStore() {
         return new JdbcTokenStore(dataSource());
+    }
+
+
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+        sessionFactoryBean.setDataSource(dataSource());
+        sessionFactoryBean.setPackagesToScan("com.macro.dev.models");
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        hibernateProperties.put("hibernate.show_sql", "true");
+        // hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
+        hibernateProperties.put("hibernate.enable_lazy_load_no_trans", "true");
+        hibernateProperties.put("format_sql", "true");
+        hibernateProperties.put("jadira.usertype.autoRegisterUserTypes", "true");
+        hibernateProperties.put("jadira.usertype.javaZone", "UTC");
+        hibernateProperties.put("jadira.usertype.databaseZone", "UTC");
+
+        sessionFactoryBean.setHibernateProperties(hibernateProperties);
+
+        return sessionFactoryBean;
     }
 }

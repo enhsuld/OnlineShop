@@ -1,13 +1,15 @@
-package com.macro.dev.entities;
+package com.macro.dev.models;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name="post")
+@NamedQuery(name="Post.findAll", query="SELECT l FROM Post l")
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -15,7 +17,7 @@ public class Post {
     private Date dateCreated;
 
     @ManyToOne
-    private User creator;
+    private LutUser creator;
 
 
 
@@ -54,11 +56,11 @@ public class Post {
         this.dateCreated = dateCreated;
     }
 
-    public User getCreator() {
+    public LutUser getCreator() {
         return creator;
     }
 
-    public void setCreator(User creator) {
+    public void setCreator(LutUser creator) {
         this.creator = creator;
     }
 }

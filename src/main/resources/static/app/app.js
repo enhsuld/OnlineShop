@@ -12,7 +12,8 @@ var altairApp = angular.module('altairApp', [
     'ngFileUpload',
     'chieffancypants.loadingBar',
     'ncy-angular-breadcrumb',
-    'ConsoleLogger'
+    'ConsoleLogger',
+    'ngCookies'
 ]);
 
 altairApp.constant('variables', {

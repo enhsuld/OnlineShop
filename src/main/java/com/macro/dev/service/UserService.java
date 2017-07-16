@@ -1,6 +1,6 @@
 package com.macro.dev.service;
 
-import com.macro.dev.entities.User;
+import com.macro.dev.models.LutUser;
 import com.macro.dev.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,16 +21,16 @@ public class UserService {
         return new BCryptPasswordEncoder();
     }
 
-    public void save(User user){
+    public void save(LutUser user){
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
 
-    public User getUser(String username){
+    public LutUser getUser(String username){
         return userRepository.findByUsername(username);
     }
 
-    public List<User> getAllUsers() {
+    public List<LutUser> getAllUsers() {
         return userRepository.findAll();
     }
 }
