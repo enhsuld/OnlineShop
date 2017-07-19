@@ -64,9 +64,10 @@ public class CoreController {
 	@Autowired
 	private UserService userService;
 
-
 	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	
+
+
+
 	@RequestMapping(value = "/api/{domain}/{id}", method = RequestMethod.GET, produces={"application/json; charset=UTF-8"})
     public @ResponseBody String tree(@PathVariable String domain,@PathVariable long id) {
 	try{
@@ -601,7 +602,7 @@ public class CoreController {
 					
 					LutUser loguser= (LutUser) dao.getHQLResult("from LutUser t where t.username='"+userDetail.getUsername()+"'", "current");
 					
-					LutMenu mnu=(LutMenu) dao.getHQLResult("from LutMenu t where t.id='"+loguser.getRoles().get(0).getAccessid()+"'", "current");
+					LutMenu mnu=(LutMenu) dao.getHQLResult("from LutMenu t where t.id='"+loguser.getLutRoles().get(0).getAccessid()+"'", "current");
 					js.put("url", mnu.getStateurl());
 					
 				}
@@ -666,8 +667,8 @@ public class CoreController {
 					result=services.getUjson(roles,true,loguser);
 				}
 				else{
-					for(int i=0;i<loguser.getRoles().size();i++){
-						roles=roles+","+loguser.getRoles().get(i).getId();
+					for(int i=0;i<loguser.getLutRoles().size();i++){
+						roles=roles+","+loguser.getLutRoles().get(i).getId();
 					}
 					result=services.getUjson(roles,false,loguser);
 				}
@@ -708,8 +709,8 @@ public class CoreController {
 				else{
 					System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 					System.out.println(loguser.getUsername());
-					for(int i=0;i<loguser.getRoles().size();i++){
-						roles=roles+","+loguser.getRoles().get(i).getId();
+					for(int i=0;i<loguser.getLutRoles().size();i++){
+						roles=roles+","+loguser.getLutRoles().get(i).getId();
 					}
 					result=services.getMjson(roles,false,loguser);
 				}
@@ -758,7 +759,7 @@ public class CoreController {
    						LutUser loguser=(LutUser) dao.getHQLResult("from LutUser t where t.id='"+id+"'", "current");
 							LutMenu lm=(LutMenu) dao.getHQLResult("from LutMenu t where t.stateurl='"+path+"'", "current");
 		   				
-							List<LutRole> us=loguser.getRoles();
+							List<LutRole> us=loguser.getLutRoles();
 							ObjectMapper mapper = new ObjectMapper();
 			    		Map<String,Object> wmap=new HashMap<String, Object>();   
 			    		

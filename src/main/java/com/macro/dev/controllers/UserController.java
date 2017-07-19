@@ -44,6 +44,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping(value = "/api/user")
+    public LutUser user(){
+        return userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
     @GetMapping(value = "/logouts")
     public void logout(@RequestParam (value = "access_token") String accessToken){
         tokenStore.removeAccessToken(tokenStore.readAccessToken(accessToken));

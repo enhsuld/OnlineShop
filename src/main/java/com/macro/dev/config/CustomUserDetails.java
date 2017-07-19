@@ -22,7 +22,7 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(LutUser user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.authorities = translate(user.getRoles());
+        this.authorities = translate(user.getLutRoles());
     }
 
     /**

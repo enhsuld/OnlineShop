@@ -24,14 +24,14 @@ public class LutUser {
     @JsonIgnore
     private String password;
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    private List<LutRole> roles;
+    private List<LutRole> lutRoles;
 
     public LutUser() {}
 
-    public LutUser(String username, String password, List<LutRole> roles) {
+    public LutUser(String username, String password, List<LutRole> lutRoles) {
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.lutRoles = lutRoles;
     }
 
     public String getUsername() {
@@ -90,12 +90,12 @@ public class LutUser {
         this.password = password;
     }
 
-    public List<LutRole> getRoles() {
-        return roles;
+    public List<LutRole> getLutRoles() {
+        return lutRoles;
     }
 
-    public void setRoles(List<LutRole> roles) {
-        this.roles = roles;
+    public void setLutRoles(List<LutRole> lutRoles) {
+        this.lutRoles = lutRoles;
     }
 
     public void setId(Long id) {

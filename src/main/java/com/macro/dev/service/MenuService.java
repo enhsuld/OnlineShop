@@ -170,7 +170,7 @@ public class MenuService {
 			JSONArray ulist = new JSONArray();
 			JSONObject wmap = new JSONObject();
     		wmap.put("id",loguser.getId());
-    		wmap.put("role", loguser.getRoles().get(0).getName());
+    		wmap.put("role", loguser.getLutRoles().get(0).getName());
     		wmap.put("gname", loguser.getGivenname());
     		if(loguser.getFamilyname()!=null && loguser.getGivenname()!=null){
     			wmap.put("username", loguser.getFamilyname().substring(0, 1)+"."+loguser.getGivenname());
@@ -205,9 +205,9 @@ public class MenuService {
 			JSONArray ulist = new JSONArray();
 			JSONObject wmap = new JSONObject();
     		wmap.put("id",loguser.getId());
-    		wmap.put("role", loguser.getRoles().get(0).getName());
+    		wmap.put("role", loguser.getLutRoles().get(0).getName());
     		JSONArray rtemp = new JSONArray();
-    		for(LutRole r : loguser.getRoles()){
+    		for(LutRole r : loguser.getLutRoles()){
     			rtemp.put(r.getName());
     		}
     		//wmap.put("depid", loguser.getDepartmentid());
