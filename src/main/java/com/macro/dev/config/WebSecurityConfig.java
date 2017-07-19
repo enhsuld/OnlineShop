@@ -32,12 +32,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // @formatter:off
-		http.authorizeRequests().antMatchers("/login").permitAll()
-		.antMatchers("/oauth/token/revokeById/**").permitAll()
-		.antMatchers("/tokens/**").permitAll()
-		.anyRequest().authenticated()
-		.and().formLogin().permitAll()
-		.and().csrf().disable();
+		http.httpBasic()
+            .and().authorizeRequests().antMatchers("/login").permitAll()
+            .antMatchers("/bower_components/**").permitAll()
+            .antMatchers("/api/**").permitAll()
+            .antMatchers("/file_manager/**").permitAll()
+            .antMatchers("/gulp-tasks/**").permitAll()
+            .antMatchers("/assets/**").permitAll()
+            .antMatchers("/data/**").permitAll()
+            .antMatchers("/kendoui/**").permitAll()
+            .antMatchers("/package.json").permitAll()
+            .antMatchers("/font.css").permitAll()
+            .antMatchers("/service/send-mail").permitAll()
+            .antMatchers("/index.html", "/user","/").permitAll()
+            .antMatchers("/oauth/token/revokeById/**").permitAll()
+            .antMatchers("/tokens/**").permitAll()
+            .anyRequest().authenticated()
+            .and().formLogin().permitAll()
+            .and().csrf().disable();
 		// @formatter:on
     }
 

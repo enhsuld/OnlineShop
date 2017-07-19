@@ -10,11 +10,11 @@ angular
         'mainService',
         function ($timeout,$rootScope,$scope,$window,$state,sessionService,mainService) {
 
-        	mainService.withdomain('get','/api/user')
+       /* 	mainService.withdomain('get','/api/user')
 	  			.then(function(data){
 	  				 $rootScope.user =  data;		
 	  				 $scope.user=data;	
-		  	});
+		  	});*/
         	 
             $scope.user_data = {
                 name: "Lue Feest",

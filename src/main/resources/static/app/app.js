@@ -13,7 +13,9 @@ var altairApp = angular.module('altairApp', [
     'chieffancypants.loadingBar',
     'ncy-angular-breadcrumb',
     'ConsoleLogger',
-    'ngCookies'
+    'ngCookies',
+    'ngResource',
+    'oauth'
 ]);
 
 altairApp.constant('variables', {
@@ -41,6 +43,26 @@ altairApp.config(function($breadcrumbProvider) {
         templateUrl: 'app/templates/breadcrumbs.tpl.html'
     });
 });
+
+/*altairApp.config(function($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+    }).hashPrefix('!');
+});*/
+
+altairApp.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push(function ($q,$rootScope) {
+        return {
+            'responseError': function (responseError) {
+                $rootScope.message = responseError.statusText;
+                console.log("error here");
+                console.log(responseError);
+                return $q.reject(responseError);
+            }
+        };
+    });
+}]);
 
 /* detect IE */
 function detectIE(){var a=window.navigator.userAgent,b=a.indexOf("MSIE ");if(0<b)return parseInt(a.substring(b+5,a.indexOf(".",b)),10);if(0<a.indexOf("Trident/"))return b=a.indexOf("rv:"),parseInt(a.substring(b+3,a.indexOf(".",b)),10);b=a.indexOf("Edge/");return 0<b?parseInt(a.substring(b+5,a.indexOf(".",b)),10):!1};

@@ -107,7 +107,7 @@ angular
                 password: "",
                 client_id: "clientIdPassword"
             };
-            $scope.encoded = btoa("sampleClientId:secret");
+            $scope.encoded = btoa("fooClientIdPassword:secret");
 
             $scope.login = function() {
 

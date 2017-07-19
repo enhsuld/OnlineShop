@@ -77,6 +77,7 @@ altairApp
                                 'lazy_autosize',
                                 'lazy_iCheck',
                                 'lazy_themes',
+                                'app/app.controller.js',
                                 'app/shared/main_sidebar/main_sidebarController.js',
                             ]);
                         }],
@@ -90,9 +91,9 @@ altairApp
 							});
 						},
 						user_data: function($http,$state){
-                    		return $http({ method: 'GET', url: '/core/ujson' })
+                    		return $http({ method: 'GET', url: '/api/user' })
                             .then(function (data) {
-                                return data.data.ujson[0];
+                                return data.data;
                             })
                             .catch(function(response) {
 							    $state.go("login");

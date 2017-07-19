@@ -26,12 +26,12 @@ angular
                     }
                 })
             });
-            
-            mainService.withdomain('get','/core/mjson')
+
+         /*   mainService.withdomain('get','/core/mjson')
 				.then(function(data){
 					$scope.sections =  data.mjson;
 					
-			});	
+			});*/
             
             // language switcher
             $scope.langSwitcherModel = 'gb';

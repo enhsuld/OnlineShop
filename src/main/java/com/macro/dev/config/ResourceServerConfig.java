@@ -1,6 +1,7 @@
 package com.macro.dev.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -16,13 +17,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http
+        http.httpBasic().and()
                 .authorizeRequests()
-                .antMatchers("/**","/home","/register","/login").permitAll()
-                .antMatchers("/private/**").authenticated()
+                .antMatchers("/employee").hasRole("ADMIN")
+                .antMatchers("/","/home","/register","/login").permitAll()
                 .antMatchers("/post").authenticated()
                 .antMatchers("/post/postComment").authenticated()
-                .antMatchers(HttpMethod.DELETE , "/post/**").hasAuthority("ROLE_ADMIN");
+
+                .antMatchers(HttpMethod.DELETE , "/post*//**").hasAuthority("ROLE_ADMIN");
     }
 
 

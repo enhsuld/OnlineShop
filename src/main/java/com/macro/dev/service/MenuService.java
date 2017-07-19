@@ -85,100 +85,101 @@ public class MenuService {
     		robj.put("ujson", ulist);
     		robj.put("mjson", result);
 		}else{
-			
-			System.out.println("@@@"+roles.substring(1,roles.length()));
-			
-			roleset=(Collection<Object>) dao.getHQLResult("select c.id, c.menuname, c.parentid, c.stateurl, c.uicon, t.rcreate, t.rupdate, t.rdelete, t.rexport from LutMenu c, LnkMenurole t where t.roleid in ("+roles.substring(1,roles.length())+") and c.id=t.menuid and t.rread=1 order by c.orderid asc", "list");
-			Iterator<Object> ldata =roleset.iterator(); 
-			while (ldata.hasNext()) {
-				Object[] curr = (Object[]) ldata.next();	
-				JSONObject wmap=new JSONObject();
-				if(curr[2] == null){
-					int inp=0;
-	        		for(int i=0;i<result.length();i++){
-	        			JSONObject it = (JSONObject) result.get(i);
-	        		    if(it.getString("id").equals(curr[0].toString())){
-	        		    	inp=inp+1;
-	        		    }
-	        		}
-					wmap.put("id", curr[0].toString());
-	        		wmap.put("title", curr[1].toString());		
-	        		if(curr[4]!=null){
-	        			wmap.put("icon", curr[4].toString());
-	        		}
-	        		
-	        		wmap.put("create", curr[5].toString());
-	        		wmap.put("update", curr[6].toString());
-	        		wmap.put("delete", curr[7].toString());
-	        		wmap.put("export", curr[8].toString());
-	        			
-	        		JSONArray childs = new JSONArray();  
-	        		int count=0;
-	        		Iterator<Object> fldata =roleset.iterator(); 
-	        		while (fldata.hasNext()) {
-						Object[] fcurr = (Object[]) fldata.next();
-						if(fcurr[2] != null && curr[0].toString().equalsIgnoreCase(fcurr[2].toString())){
-							JSONObject fchild=new JSONObject();
-							count=count+1;
-							fchild.put("title", fcurr[1].toString());
-							
-							int chicount=0;
-							for(int i=0;i<childs.length();i++){
-			        			JSONObject it = (JSONObject) childs.get(i);
-			        			if(it.getString("title").equalsIgnoreCase(fcurr[1].toString())){
-			        				chicount=chicount+1;
-			        			}
-							}
-							
-							JSONArray tchilds = new JSONArray(); 	
-							int tcount=0;
-							Iterator<Object> tldata =roleset.iterator(); 
-			        		while (tldata.hasNext()) {
-								Object[] tcurr = (Object[]) tldata.next();
-								if(tcurr[2] != null && fcurr[0].toString().equalsIgnoreCase(tcurr[2].toString())){
-									JSONObject tchild=new JSONObject();
-									tcount=tcount+1;
-									tchild.put("title", tcurr[1].toString());
-									tchild.put("link",  tcurr[3].toString());	
-									tchilds.put(tchild);
-								}
-			        		}
-							
-		        			fchild.put("submenu",  tchilds);	
-							if(tcount==0){
-								fchild.put("link",  fcurr[3].toString());	
-							}
-							if(chicount==0){
-								childs.put(fchild);	
-			        		}								
-						}
-	        		}
-	        		
-	        		wmap.put("submenu", childs);
-	        		if(count==0){
-	        			wmap.put("link", curr[3].toString());
-	        		}
-	        		if(inp==0){		        			
-	        			result.put(wmap);  
-	        		}	        		   
-				}
-				else{
-					wmap.put("link", curr[3].toString());
-				}
-			}
-			
-			JSONArray ulist = new JSONArray();
-			JSONObject wmap = new JSONObject();
-    		wmap.put("id",loguser.getId());
-    		wmap.put("role", loguser.getLutRoles().get(0).getName());
-    		wmap.put("gname", loguser.getGivenname());
-    		if(loguser.getFamilyname()!=null && loguser.getGivenname()!=null){
-    			wmap.put("username", loguser.getFamilyname().substring(0, 1)+"."+loguser.getGivenname());
-    		}
+			if(roles.length()>0){
+				System.out.println("@@@"+roles.substring(1,roles.length()));
 
-    		ulist.put(wmap);
-    		robj.put("ujson", ulist);
-    		robj.put("mjson", result);
+				roleset=(Collection<Object>) dao.getHQLResult("select c.id, c.menuname, c.parentid, c.stateurl, c.uicon, t.rcreate, t.rupdate, t.rdelete, t.rexport from LutMenu c, LnkMenurole t where t.roleid in ("+roles.substring(1,roles.length())+") and c.id=t.menuid and t.rread=1 order by c.orderid asc", "list");
+				Iterator<Object> ldata =roleset.iterator();
+				while (ldata.hasNext()) {
+					Object[] curr = (Object[]) ldata.next();
+					JSONObject wmap=new JSONObject();
+					if(curr[2] == null){
+						int inp=0;
+						for(int i=0;i<result.length();i++){
+							JSONObject it = (JSONObject) result.get(i);
+							if(it.getString("id").equals(curr[0].toString())){
+								inp=inp+1;
+							}
+						}
+						wmap.put("id", curr[0].toString());
+						wmap.put("title", curr[1].toString());
+						if(curr[4]!=null){
+							wmap.put("icon", curr[4].toString());
+						}
+
+						wmap.put("create", curr[5].toString());
+						wmap.put("update", curr[6].toString());
+						wmap.put("delete", curr[7].toString());
+						wmap.put("export", curr[8].toString());
+
+						JSONArray childs = new JSONArray();
+						int count=0;
+						Iterator<Object> fldata =roleset.iterator();
+						while (fldata.hasNext()) {
+							Object[] fcurr = (Object[]) fldata.next();
+							if(fcurr[2] != null && curr[0].toString().equalsIgnoreCase(fcurr[2].toString())){
+								JSONObject fchild=new JSONObject();
+								count=count+1;
+								fchild.put("title", fcurr[1].toString());
+
+								int chicount=0;
+								for(int i=0;i<childs.length();i++){
+									JSONObject it = (JSONObject) childs.get(i);
+									if(it.getString("title").equalsIgnoreCase(fcurr[1].toString())){
+										chicount=chicount+1;
+									}
+								}
+
+								JSONArray tchilds = new JSONArray();
+								int tcount=0;
+								Iterator<Object> tldata =roleset.iterator();
+								while (tldata.hasNext()) {
+									Object[] tcurr = (Object[]) tldata.next();
+									if(tcurr[2] != null && fcurr[0].toString().equalsIgnoreCase(tcurr[2].toString())){
+										JSONObject tchild=new JSONObject();
+										tcount=tcount+1;
+										tchild.put("title", tcurr[1].toString());
+										tchild.put("link",  tcurr[3].toString());
+										tchilds.put(tchild);
+									}
+								}
+
+								fchild.put("submenu",  tchilds);
+								if(tcount==0){
+									fchild.put("link",  fcurr[3].toString());
+								}
+								if(chicount==0){
+									childs.put(fchild);
+								}
+							}
+						}
+
+						wmap.put("submenu", childs);
+						if(count==0){
+							wmap.put("link", curr[3].toString());
+						}
+						if(inp==0){
+							result.put(wmap);
+						}
+					}
+					else{
+						wmap.put("link", curr[3].toString());
+					}
+				}
+
+				JSONArray ulist = new JSONArray();
+				JSONObject wmap = new JSONObject();
+				wmap.put("id",loguser.getId());
+				wmap.put("role", loguser.getLutRoles().get(0).getName());
+				wmap.put("gname", loguser.getGivenname());
+				if(loguser.getFamilyname()!=null && loguser.getGivenname()!=null){
+					wmap.put("username", loguser.getFamilyname().substring(0, 1)+"."+loguser.getGivenname());
+				}
+
+				ulist.put(wmap);
+				robj.put("ujson", ulist);
+				robj.put("mjson", result);
+			}
 		}
 
 		return robj;

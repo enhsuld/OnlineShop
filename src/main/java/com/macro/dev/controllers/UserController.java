@@ -6,6 +6,7 @@ import com.macro.dev.pojos.UserRegistration;
 import com.macro.dev.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,7 @@ public class UserController {
 
     @GetMapping(value = "/api/user")
     public LutUser user(){
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
