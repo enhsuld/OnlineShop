@@ -6,9 +6,10 @@ angular
         '$http',
         '$state',
         'utils',
+        '$localStorage',
         'mainService',
-        '$cookies',
-        function ($scope,$rootScope,$http,$state,utils, mainService, $cookies) {
+        '$resource',
+        function ($scope,$rootScope,$http,$state,utils,$localStorage, mainService, $resource) {
        	
 				
 
@@ -101,6 +102,30 @@ angular
                 utils.card_show_hide($login_card,undefined,password_reset_show,undefined);
             };
 
+
+            mainService.withdomain('delete','http://localhost:8080/oauth/token/revokeById/:tokenId',{tokenId:'@tokenId'})
+            .then(function(data){
+                if(data){
+                    sweet.show('Мэдээлэл', 'Амжилттай хадгаллаа.', 'success');
+                }
+
+            });
+
+            $scope.revokeToken = $resource("http://localhost:8080/oauth/token/revokeById/:tokenId",{tokenId:'@tokenId'});
+            $scope.tokens = $resource("http://localhost:8080/tokens");
+
+            $scope.getTokens = function(){
+                $scope.tokenList = $scope.tokens.query();
+            }
+
+            $scope.revokeAccessToken = function(){
+                if ($scope.tokenToRevoke && $scope.tokenToRevoke.length !=0){
+                    $scope.revokeToken.save({tokenId:$scope.tokenToRevoke});
+                    $rootScope.message="Token:"+$scope.tokenToRevoke+" was revoked!";
+                    $scope.tokenToRevoke="";
+                }
+            }
+
             $scope.data = {
                 grant_type:"password",
                 username: "",
@@ -122,7 +147,7 @@ angular
                 $http(req).then(function(data){
                     $http.defaults.headers.common.Authorization =
                         'Bearer ' + data.data.access_token;
-                    $cookies.put("access_token", data.data.access_token);
+                    localStorage.setItem("access_token", data.data.access_token);
                     $state.go('restricted.dashboard');
                 });
             }

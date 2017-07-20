@@ -5,7 +5,27 @@ altairApp
         '$httpProvider',
         function ($stateProvider, $urlRouterProvider,$httpProvider) {
         	
-        	 $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+        	$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+
+            $httpProvider.interceptors.push(['$q', '$location', function($q, $location) {
+
+                return {
+                    'request': function (config) {
+                        config.headers = config.headers || {};
+                        console.log(localStorage.access_token);
+                        if (localStorage.access_token) {
+                            config.headers.Authorization = 'Bearer ' + localStorage.access_token;
+                        }
+                        return config;
+                    },
+                    'responseError': function(response) {
+                        if(response.status === 401 || response.status === 403) {
+                            $location.path('/login');
+                        }
+                        return $q.reject(response);
+                    }
+                };
+            }]);
 
             // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
             $urlRouterProvider
@@ -77,7 +97,6 @@ altairApp
                                 'lazy_autosize',
                                 'lazy_iCheck',
                                 'lazy_themes',
-                                'app/app.controller.js',
                                 'app/shared/main_sidebar/main_sidebarController.js',
                             ]);
                         }],
