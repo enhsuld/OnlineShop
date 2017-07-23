@@ -32,8 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // @formatter:off
-		http.httpBasic()
-            .and().authorizeRequests().antMatchers("/login").permitAll()
+		http
+            .authorizeRequests().antMatchers("/login").permitAll()
             .antMatchers("/bower_components/**").permitAll()
             .antMatchers("/api/**").permitAll()
             .antMatchers("/file_manager/**").permitAll()

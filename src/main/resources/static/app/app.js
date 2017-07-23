@@ -14,8 +14,7 @@ var altairApp = angular.module('altairApp', [
     'ncy-angular-breadcrumb',
     'ConsoleLogger',
     'ngCookies',
-    'ngResource',
-    'oauth'
+    'ngResource'
 ]);
 
 altairApp.constant('variables', {
@@ -44,26 +43,9 @@ altairApp.config(function($breadcrumbProvider) {
     });
 });
 
-/*altairApp.config(function($locationProvider) {
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
-    }).hashPrefix('!');
-});*/
-
-altairApp.config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.interceptors.push(function ($q,$rootScope) {
-        return {
-            'responseError': function (responseError) {
-                $rootScope.message = responseError.statusText;
-                console.log("error here");
-                console.log(responseError);
-                return $q.reject(responseError);
-            }
-        };
-    });
+altairApp.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('rememberMeInterceptor');
 }]);
-
 
 
 /* detect IE */
@@ -84,6 +66,8 @@ altairApp
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
+
+
 
             $rootScope.$on('$stateChangeSuccess', function () {
 

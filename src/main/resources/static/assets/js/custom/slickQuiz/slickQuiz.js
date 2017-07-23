@@ -445,7 +445,7 @@
                 // TODO: Now that we're marking answer LIs as correct / incorrect, we might be able
                 // to do all our answer checking at the same time
 
-                // NOTE: Collecting answer index for comparison aims to ensure that HTML entities
+                // NOTE: Collecting answer index for comparison aims to ensure that HTML models
                 // and HTML elements that may be modified by the browser / other scrips match up
 
                 // Collect the answers submitted

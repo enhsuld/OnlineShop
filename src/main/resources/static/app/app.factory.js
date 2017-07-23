@@ -12,6 +12,48 @@ altairApp
             }
         }
     ])
+    .factory('rememberMeInterceptor', ['$q','$injector','$httpParamSerializer', function($q, $injector,$httpParamSerializer,$state) {
+        var interceptor = {
+            responseError: function(response) {
+                if (response.status == 401){
+
+                    var $http = $injector.get('$http');
+                    var $cookies = $injector.get('$cookies');
+                    var deferred = $q.defer();
+
+                    var refreshData = {grant_type:"refresh_token"};
+
+                    var req = {
+                        method: 'POST',
+                        url: "oauth/token",
+                        headers: {"Content-type": "application/x-www-form-urlencoded; charset=utf-8"},
+                        data: $httpParamSerializer(refreshData)
+                    }
+                    alert();
+                    $http(req).then(
+                        function(data){
+                            $http.defaults.headers.common.Authorization= 'Bearer ' + data.data.access_token;
+                            var expireDate = new Date (new Date().getTime() + (1000 * data.data.expires_in));
+                            $cookies.put("access_token", data.data.access_token, {'expires': expireDate});
+                            $cookies.put("validity", data.data.expires_in);
+                            $state.go('restricted.dashboard');
+                        },function(){
+                            console.log("error");
+                            $cookies.remove("access_token");
+                            $state.go('login');
+                        }
+                    );
+
+                    // make the backend call again and chain the request
+                    return deferred.promise.then(function() {
+                        return $http(response.config);
+                    });
+                }
+                return $q.reject(response);
+            }
+        };
+        return interceptor;
+    }])
     .factory('utils', [
         function () {
             return {

@@ -64,9 +64,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients)
             throws Exception {
             clients
-         //  .jdbc(dataSource())
+           .jdbc(dataSource())
 
-                .inMemory().withClient("sampleClientId").authorizedGrantTypes("implicit")
+               /* .inMemory().withClient("sampleClientId").authorizedGrantTypes("implicit")
                 .scopes("read", "write", "foo", "bar").autoApprove(false).accessTokenValiditySeconds(3600)
 
                 .and().withClient("fooClientIdPassword").secret("secret")
@@ -77,7 +77,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .and().withClient("barClientIdPassword").secret("secret")
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token").scopes("bar", "read", "write")
                 .accessTokenValiditySeconds(3600) // 1 hour
-                .refreshTokenValiditySeconds(2592000) // 30 days
+                .refreshTokenValiditySeconds(2592000) // 30 days*/
 
 
               /*  .withClient("sampleClientId")

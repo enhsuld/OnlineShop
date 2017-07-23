@@ -7,14 +7,14 @@ altairApp
         	
         	$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
-            $httpProvider.interceptors.push(['$q', '$location', function($q, $location) {
+            $httpProvider.interceptors.push(['$q', '$location','$cookies', function($q, $location,$cookies) {
 
                 return {
                     'request': function (config) {
                         config.headers = config.headers || {};
-                        console.log(localStorage.access_token);
-                        if (localStorage.access_token) {
-                            config.headers.Authorization = 'Bearer ' + localStorage.access_token;
+                        console.log($cookies.get('access_token'));
+                        if ($cookies.get('access_token')) {
+                            config.headers.Authorization = 'Bearer ' + $cookies.get('access_token');
                         }
                         return config;
                     },

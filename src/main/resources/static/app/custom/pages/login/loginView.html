@@ -14,11 +14,11 @@
                      <form role="form" id="form_validation" class="uk-form-stacked" ng-submit="login()">     
                     <div class="uk-form-row parsley-row">
                         <label for="login_username">Нэвтрэх нэр</label>
-                        <input class="md-input" type="text" id="username" required name="username" ng-model="data.username" md-input />
+                        <input class="md-input" type="text" id="username" required name="username" ng-model="loginData.username" md-input />
                     </div>
                     <div class="uk-form-row parsley-row">
                         <label for="login_password">Нууц үг</label>
-                        <input class="md-input" type="password" id="password" required name="password" ng-model="data.password" md-input />
+                        <input class="md-input" type="password" id="password" required name="password" ng-model="loginData.password" md-input />
                     </div>
                      <div class="uk-margin-medium-top uk-form-row"  ng-show="error">
                      	<div class="uk-alert uk-alert-info"  style="margin-bottom:0px;" data-uk-alert>
@@ -46,8 +46,8 @@
                     <div class="uk-margin-top">
                         <a href="#" id="login_help_show" class="uk-float-right" ng-click="loginHelp($event)">Тусламж</a>
                         <span class="icheck-inline">
-                            <!-- <input type="checkbox" name="login_page_stay_signed" id="login_page_stay_signed" icheck ng-model="login_signed" />
-                            <label for="login_page_stay_signed" class="inline-label">Stay signed in</label> -->
+                            <input type="checkbox" name="login_page_stay_signed" id="login_page_stay_signed" icheck ng-model="loginData.remember" />
+                            <label for="login_page_stay_signed" class="inline-label">Stay signed in</label>
                         </span>
                     </div>
                

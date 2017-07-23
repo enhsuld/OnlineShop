@@ -16,18 +16,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class UiWebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer
-    propertySourcesPlaceholderConfigurer() {
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Override
-    public void configureDefaultServletHandling(
-            DefaultServletHandlerConfigurer configurer) {
+    public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
 
-      /**/
+
+    /**/
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");

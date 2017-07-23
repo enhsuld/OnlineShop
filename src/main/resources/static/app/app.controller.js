@@ -8,7 +8,7 @@ angular
     .controller('mainCtrl', ['$scope','$resource','$http','$rootScope',
         function ($scope,$resource,$http,$rootScope) {
 
-            $scope.$on('oauth:login', function(event, token) {
+     /*       $scope.$on('oauth:login', function(event, token) {
                 alert();
                 $http.defaults.headers.common.Authorization= 'Bearer ' + token.access_token;
                 console.log('Authorized third party app with token', token.access_token);
@@ -32,7 +32,7 @@ angular
                     $rootScope.message="Token:"+$scope.tokenToRevoke+" was revoked!";
                     $scope.tokenToRevoke="";
                 }
-            }
+            }*/
         }
     ])
 ;

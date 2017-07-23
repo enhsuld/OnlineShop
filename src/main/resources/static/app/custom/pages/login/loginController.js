@@ -6,10 +6,11 @@ angular
         '$http',
         '$state',
         'utils',
-        '$localStorage',
         'mainService',
         '$resource',
-        function ($scope,$rootScope,$http,$state,utils,$localStorage, mainService, $resource) {
+        '$cookies',
+        '$httpParamSerializer',
+        function ($scope,$rootScope,$http,$state,utils, mainService, $resource,$cookies,$httpParamSerializer) {
        	
 				
 
@@ -102,8 +103,129 @@ angular
                 utils.card_show_hide($login_card,undefined,password_reset_show,undefined);
             };
 
+            $scope.foo = {id:1 , name:"sample foo"};
+            $scope.foos = $resource("http://localhost:8082/spring-security-oauth-resource/foos/:fooId",{fooId:'@id'});
 
-            mainService.withdomain('delete','http://localhost:8080/oauth/token/revokeById/:tokenId',{tokenId:'@tokenId'})
+            $scope.organiztion = "";
+            $scope.isLoggedIn = false;
+
+            $scope.getFoo = function(){
+                $scope.foo = $scope.foos.get({fooId:$scope.foo.id});
+            }
+
+            $scope.loginData = {grant_type:"password", username: "", password: "", client_id: "fooClientIdPassword"};
+            $scope.refreshData = {grant_type:"refresh_token"};
+
+            var isLoginPage = window.location.href.indexOf("login") != -1;
+            if(isLoginPage){
+                if($cookies.get("access_token")){
+                    $state.go('restricted.dashboard');
+                }
+            }else{
+                if($cookies.get("access_token")){
+                    $http.defaults.headers.common.Authorization= 'Bearer ' + $cookies.get("access_token");
+                    getOrganization();
+                    $scope.isLoggedIn = true;
+                }else{
+                    //obtainAccessToken($scope.refreshData);
+                    $scope.isLoggedIn = false;
+                }
+            }
+
+            $scope.login = function() {
+                obtainAccessToken($scope.loginData);
+            }
+
+            $scope.refreshAccessToken = function(){
+                obtainAccessToken($scope.refreshData);
+            }
+
+            $scope.logout = function() {
+                logout($scope.loginData);
+            }
+
+            if ($cookies.get("remember")=="yes"){
+                var validity = $cookies.get("validity");
+                if (validity >10) validity -= 10;
+                $timeout( function(){;$scope.refreshAccessToken();}, validity * 1000);
+            }
+
+            function obtainAccessToken(params){
+                if (params.username != null){
+                    if (params.remember != null){
+                        $cookies.put("remember","yes");
+                    }
+                    else {
+                        $cookies.remove("remember");
+                    }
+                }
+
+               /* var req = {
+                    method: 'POST',
+                    url: "oauth/token",
+                    headers: {"Content-type": "application/x-www-form-urlencoded; charset=utf-8"},
+                    data: $httpParamSerializer(params)
+                }*/
+
+                $scope.encoded = btoa("fooClientIdPassword:secret");
+                var req = {
+                    method: 'POST',
+                    url: "http://localhost:8080/oauth/token?grant_type=password&username="+$scope.loginData.username+"&password="+$scope.loginData.password+"",
+                    headers: {
+                        "Authorization": "Basic " + $scope.encoded,
+                        "Content-type": "application/x-www-form-urlencoded; charset=utf-8"
+                    }
+                }
+
+
+                $http(req).then(
+                    function(data){
+                        $http.defaults.headers.common.Authorization= 'Bearer ' + data.data.access_token;
+                        var expireDate = new Date (new Date().getTime() + (1000 * data.data.expires_in));
+                        $cookies.put("access_token", data.data.access_token, {'expires': expireDate});
+                        $cookies.put("validity", data.data.expires_in);
+
+                        $state.go('restricted.dashboard');
+                    },function(){
+                        console.log("error");
+                        $state.go('login');
+                    }
+                );
+            }
+
+            function getOrganization(){
+                var token = $cookies.get("access_token");
+                //JWT
+                /* var payload = jwtHelper.decodeToken(token);
+                 console.log(payload);
+                 $scope.organization = payload.organization; */
+
+                //JDBC
+                $http.get("http://localhost:8082/spring-security-oauth-resource/users/extra")
+                    .then(function(response) {
+                        console.log(response);
+                        $scope.organization = response.data.organization;
+                    });
+            }
+
+            function logout(params) {
+                var req = {
+                    method: 'DELETE',
+                    url: "oauth/token"
+                }
+                $http(req).then(
+                    function(data){
+                        $cookies.remove("access_token");
+                        $cookies.remove("remember");
+                        window.location.href="login";
+                    },function(){
+                        console.log("error");
+                    }
+                );
+            }
+
+
+            /*mainService.withdomain('delete','http://localhost:8080/oauth/token/revokeById/:tokenId',{tokenId:'@tokenId'})
             .then(function(data){
                 if(data){
                     sweet.show('Мэдээлэл', 'Амжилттай хадгаллаа.', 'success');
@@ -150,7 +272,7 @@ angular
                     localStorage.setItem("access_token", data.data.access_token);
                     $state.go('restricted.dashboard');
                 });
-            }
+            }*/
 
             $scope.res = {};
 			$scope.resetPassword = function() {			
