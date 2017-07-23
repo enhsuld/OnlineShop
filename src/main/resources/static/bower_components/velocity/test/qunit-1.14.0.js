@@ -2111,7 +2111,7 @@ QUnit.jsDump = (function() {
 				number: literal,
 				"boolean": literal
 			},
-			// if true, entities are escaped ( <, >, \t, space and \n )
+			// if true, models are escaped ( <, >, \t, space and \n )
 			HTML: false,
 			// indentation unit
 			indentChar: "  ",

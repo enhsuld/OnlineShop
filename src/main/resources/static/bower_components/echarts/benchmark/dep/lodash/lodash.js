@@ -115,7 +115,7 @@
       reEmptyStringMiddle = /\b(__p \+=) '' \+/g,
       reEmptyStringTrailing = /(__e\(.*?\)|\b__t\)) \+\n'';/g;
 
-  /** Used to match HTML entities and HTML characters. */
+  /** Used to match HTML models and HTML characters. */
   var reEscapedHtml = /&(?:amp|lt|gt|quot|#39|#96);/g,
       reUnescapedHtml = /[&<>"'`]/g,
       reHasEscapedHtml = RegExp(reEscapedHtml.source),
@@ -326,7 +326,7 @@
     '\xdf': 'ss'
   };
 
-  /** Used to map characters to HTML entities. */
+  /** Used to map characters to HTML models. */
   var htmlEscapes = {
     '&': '&amp;',
     '<': '&lt;',
@@ -336,7 +336,7 @@
     '`': '&#96;'
   };
 
-  /** Used to map HTML entities to characters. */
+  /** Used to map HTML models to characters. */
   var htmlUnescapes = {
     '&amp;': '&',
     '&lt;': '<',
@@ -1043,7 +1043,7 @@
   var deburrLetter = basePropertyOf(deburredLetters);
 
   /**
-   * Used by `_.escape` to convert characters to HTML entities.
+   * Used by `_.escape` to convert characters to HTML models.
    *
    * @private
    * @param {string} chr The matched character to escape.
@@ -1230,7 +1230,7 @@
   }
 
   /**
-   * Used by `_.unescape` to convert HTML entities to characters.
+   * Used by `_.unescape` to convert HTML models to characters.
    *
    * @private
    * @param {string} chr The matched character to unescape.
@@ -13710,7 +13710,7 @@
 
     /**
      * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
-     * their corresponding HTML entities.
+     * their corresponding HTML models.
      *
      * **Note:** No other characters are escaped. To escape additional
      * characters use a third-party library like [_he_](https://mths.be/he).
@@ -14616,12 +14616,12 @@
     }
 
     /**
-     * The inverse of `_.escape`; this method converts the HTML entities
+     * The inverse of `_.escape`; this method converts the HTML models
      * `&amp;`, `&lt;`, `&gt;`, `&quot;`, `&#39;`, and `&#96;` in `string` to
      * their corresponding characters.
      *
-     * **Note:** No other HTML entities are unescaped. To unescape additional
-     * HTML entities use a third-party library like [_he_](https://mths.be/he).
+     * **Note:** No other HTML models are unescaped. To unescape additional
+     * HTML models use a third-party library like [_he_](https://mths.be/he).
      *
      * @static
      * @memberOf _

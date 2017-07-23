@@ -4220,14 +4220,14 @@ elFinder.prototype = {
 	},
 	
 	/**
-	 * Node for escape html entities in texts
+	 * Node for escape html models in texts
 	 * 
 	 * @type jQuery
 	 */
 	_node : $('<span/>'),
 	
 	/**
-	 * Replace not html-safe symbols to html entities
+	 * Replace not html-safe symbols to html models
 	 * 
 	 * @param  String  text to escape
 	 * @return String

@@ -7095,7 +7095,7 @@ define("tinymce/html/Entities", [
 			156: "\u0153", 158: "\u017E", 159: "\u0178"
 		};
 
-	// Raw entities
+	// Raw models
 	baseEntities = {
 		'\"': '&quot;', // Needs to be escaped since the YUI compressor would otherwise break the code
 		"'": '&#39;',
@@ -7105,7 +7105,7 @@ define("tinymce/html/Entities", [
 		'\u0060': '&#96;'
 	};
 
-	// Reverse lookup table for raw entities
+	// Reverse lookup table for raw models
 	reverseEntities = {
 		'&lt;': '<',
 		'&gt;': '>',
@@ -7124,7 +7124,7 @@ define("tinymce/html/Entities", [
 		return elm.textContent || elm.innerText || text;
 	}
 
-	// Build a two way lookup table for the entities
+	// Build a two way lookup table for the models
 	function buildEntitiesLookup(items, radix) {
 		var i, chr, entity, lookup = {};
 
@@ -7132,11 +7132,11 @@ define("tinymce/html/Entities", [
 			items = items.split(',');
 			radix = radix || 10;
 
-			// Build entities lookup table
+			// Build models lookup table
 			for (i = 0; i < items.length; i += 2) {
 				chr = String.fromCharCode(parseInt(items[i], radix));
 
-				// Only add non base entities
+				// Only add non base models
 				if (!baseEntities[chr]) {
 					entity = '&' + items[i + 1] + ';';
 					lookup[chr] = entity;
@@ -7148,7 +7148,7 @@ define("tinymce/html/Entities", [
 		}
 	}
 
-	// Unpack entities lookup where the numbers are in radix 32 to reduce the size
+	// Unpack models lookup where the numbers are in radix 32 to reduce the size
 	namedEntities = buildEntitiesLookup(
 		'50,nbsp,51,iexcl,52,cent,53,pound,54,curren,55,yen,56,brvbar,57,sect,58,uml,59,copy,' +
 		'5a,ordf,5b,laquo,5c,not,5d,shy,5e,reg,5f,macr,5g,deg,5h,plusmn,5i,sup2,5j,sup3,5k,acute,' +
@@ -7178,7 +7178,7 @@ define("tinymce/html/Entities", [
 
 	var Entities = {
 		/**
-		 * Encodes the specified string using raw entities. This means only the required XML base entities will be encoded.
+		 * Encodes the specified string using raw models. This means only the required XML base models will be encoded.
 		 *
 		 * @method encodeRaw
 		 * @param {String} text Text to encode.
@@ -7192,7 +7192,7 @@ define("tinymce/html/Entities", [
 		},
 
 		/**
-		 * Encoded the specified text with both the attributes and text entities. This function will produce larger text contents
+		 * Encoded the specified text with both the attributes and text models. This function will produce larger text contents
 		 * since it doesn't know if the context is within a attribute or text node. This was added for compatibility
 		 * and is exposed as the DOMUtils.encode function.
 		 *
@@ -7207,8 +7207,8 @@ define("tinymce/html/Entities", [
 		},
 
 		/**
-		 * Encodes the specified string using numeric entities. The core entities will be
-		 * encoded as named ones but all non lower ascii characters will be encoded into numeric entities.
+		 * Encodes the specified string using numeric models. The core models will be
+		 * encoded as named ones but all non lower ascii characters will be encoded into numeric models.
 		 *
 		 * @method encodeNumeric
 		 * @param {String} text Text to encode.
@@ -7227,13 +7227,13 @@ define("tinymce/html/Entities", [
 		},
 
 		/**
-		 * Encodes the specified string using named entities. The core entities will be encoded
-		 * as named ones but all non lower ascii characters will be encoded into named entities.
+		 * Encodes the specified string using named models. The core models will be encoded
+		 * as named ones but all non lower ascii characters will be encoded into named models.
 		 *
 		 * @method encodeNamed
 		 * @param {String} text Text to encode.
 		 * @param {Boolean} attr Optional flag to specify if the text is attribute contents.
-		 * @param {Object} entities Optional parameter with entities to use.
+		 * @param {Object} entities Optional parameter with models to use.
 		 * @return {String} Entity encoded text.
 		 */
 		encodeNamed: function(text, attr, entities) {
@@ -7245,11 +7245,11 @@ define("tinymce/html/Entities", [
 		},
 
 		/**
-		 * Returns an encode function based on the name(s) and it's optional entities.
+		 * Returns an encode function based on the name(s) and it's optional models.
 		 *
 		 * @method getEncodeFunc
 		 * @param {String} name Comma separated list of encoders for example named,numeric.
-		 * @param {String} entities Optional parameter with entities to use instead of the built in set.
+		 * @param {String} entities Optional parameter with models to use instead of the built in set.
 		 * @return {function} Encode function to be used.
 		 */
 		getEncodeFunc: function(name, entities) {
@@ -7293,7 +7293,7 @@ define("tinymce/html/Entities", [
 		},
 
 		/**
-		 * Decodes the specified string, this will replace entities with raw UTF characters.
+		 * Decodes the specified string, this will replace models with raw UTF characters.
 		 *
 		 * @method decode
 		 * @param {String} text Text to entity decode.
@@ -8749,19 +8749,19 @@ define("tinymce/dom/DOMUtils", [
 		},
 
 		/**
-		 * Entity decodes a string. This method decodes any HTML entities, such as &aring;.
+		 * Entity decodes a string. This method decodes any HTML models, such as &aring;.
 		 *
 		 * @method decode
-		 * @param {String} s String to decode entities on.
+		 * @param {String} s String to decode models on.
 		 * @return {String} Entity decoded string.
 		 */
 		decode: Entities.decode,
 
 		/**
-		 * Entity encodes a string. This method encodes the most common entities, such as <>"&.
+		 * Entity encodes a string. This method encodes the most common models, such as <>"&.
 		 *
 		 * @method encode
-		 * @param {String} text String to encode with entities.
+		 * @param {String} text String to encode with models.
 		 * @return {String} Entity encoded string.
 		 */
 		encode: Entities.encodeAllRaw,
@@ -28526,7 +28526,7 @@ define("tinymce/ui/Control", [
 		},
 
 		/**
-		 * Encodes the specified string with HTML entities. It will also
+		 * Encodes the specified string with HTML models. It will also
 		 * translate the string to different languages.
 		 *
 		 * @method encode

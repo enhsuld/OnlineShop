@@ -2896,7 +2896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      reEmptyStringMiddle = /\b(__p \+=) '' \+/g,
 	      reEmptyStringTrailing = /(__e\(.*?\)|\b__t\)) \+\n'';/g;
 
-	  /** Used to match HTML entities and HTML characters. */
+	  /** Used to match HTML models and HTML characters. */
 	  var reEscapedHtml = /&(?:amp|lt|gt|quot|#39);/g,
 	      reUnescapedHtml = /[&<>"']/g,
 	      reHasEscapedHtml = RegExp(reEscapedHtml.source),
@@ -3148,7 +3148,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    '\u0149': "'n", '\u017f': 's'
 	  };
 
-	  /** Used to map characters to HTML entities. */
+	  /** Used to map characters to HTML models. */
 	  var htmlEscapes = {
 	    '&': '&amp;',
 	    '<': '&lt;',
@@ -3157,7 +3157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    "'": '&#39;'
 	  };
 
-	  /** Used to map HTML entities to characters. */
+	  /** Used to map HTML models to characters. */
 	  var htmlUnescapes = {
 	    '&amp;': '&',
 	    '&lt;': '<',
@@ -3886,7 +3886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var deburrLetter = basePropertyOf(deburredLetters);
 
 	  /**
-	   * Used by `_.escape` to convert characters to HTML entities.
+	   * Used by `_.escape` to convert characters to HTML models.
 	   *
 	   * @private
 	   * @param {string} chr The matched character to escape.
@@ -4115,7 +4115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	   * Used by `_.unescape` to convert HTML entities to characters.
+	   * Used by `_.unescape` to convert HTML models to characters.
 	   *
 	   * @private
 	   * @param {string} chr The matched character to unescape.
@@ -16967,7 +16967,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * Converts the characters "&", "<", ">", '"', and "'" in `string` to their
-	     * corresponding HTML entities.
+	     * corresponding HTML models.
 	     *
 	     * **Note:** No other characters are escaped. To escape additional
 	     * characters use a third-party library like [_he_](https://mths.be/he).
@@ -17868,12 +17868,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * The inverse of `_.escape`; this method converts the HTML entities
+	     * The inverse of `_.escape`; this method converts the HTML models
 	     * `&amp;`, `&lt;`, `&gt;`, `&quot;`, and `&#39;` in `string` to
 	     * their corresponding characters.
 	     *
-	     * **Note:** No other HTML entities are unescaped. To unescape additional
-	     * HTML entities use a third-party library like [_he_](https://mths.be/he).
+	     * **Note:** No other HTML models are unescaped. To unescape additional
+	     * HTML models use a third-party library like [_he_](https://mths.be/he).
 	     *
 	     * @static
 	     * @memberOf _

@@ -2137,7 +2137,7 @@ QUnit.dump = ( function() {
 				}
 			},
 
-			// If true, entities are escaped ( <, >, \t, space and \n )
+			// If true, models are escaped ( <, >, \t, space and \n )
 			HTML: false,
 
 			// Indentation unit

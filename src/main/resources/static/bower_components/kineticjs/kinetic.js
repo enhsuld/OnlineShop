@@ -86,7 +86,7 @@ var Kinetic = {};
         Filters: {},
 
         /**
-         * Node constructor. Nodes are entities that can be transformed, layered,
+         * Node constructor. Nodes are models that can be transformed, layered,
          * and have bound events. The stage, layers, groups, and shapes all extend Node.
          * @constructor
          * @memberof Kinetic

@@ -544,7 +544,7 @@
 			} catch (e) { // Fails in IE < 9
 
 				// This will work for genuine arrays, array-like objects, 
-				// NamedNodeMap (attributes, entities, notations),
+				// NamedNodeMap (attributes, models, notations),
 				// NodeList (e.g., getElementsByTagName), HTMLCollection (e.g., childNodes),
 				// and will not fail on other DOM objects (as do DOM elements in IE < 9)
 				return function(begin, end) {

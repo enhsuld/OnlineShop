@@ -12362,7 +12362,7 @@ var dpComputableOptions = {
 
 	buttonText: function(dpOptions) {
 		return {
-			// the translations sometimes wrongly contain HTML entities
+			// the translations sometimes wrongly contain HTML models
 			prev: stripHtmlEntities(dpOptions.prevText),
 			next: stripHtmlEntities(dpOptions.nextText),
 			today: stripHtmlEntities(dpOptions.currentText)
