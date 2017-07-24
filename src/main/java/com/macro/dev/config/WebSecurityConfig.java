@@ -35,7 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
             .authorizeRequests().antMatchers("/login").permitAll()
             .antMatchers("/bower_components/**").permitAll()
-            .antMatchers("/api/**").permitAll()
             .antMatchers("/file_manager/**").permitAll()
             .antMatchers("/gulp-tasks/**").permitAll()
             .antMatchers("/assets/**").permitAll()

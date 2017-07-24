@@ -10,7 +10,9 @@ angular
         '$resource',
         '$cookies',
         '$httpParamSerializer',
-        function ($scope,$rootScope,$http,$state,utils, mainService, $resource,$cookies,$httpParamSerializer) {
+        'jwtHelper',
+        '$timeout',
+        function ($scope,$rootScope,$http,$state,utils, mainService, $resource,$cookies,$httpParamSerializer,jwtHelper,$timeout) {
        	
 				
 

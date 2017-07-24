@@ -14,7 +14,8 @@ var altairApp = angular.module('altairApp', [
     'ncy-angular-breadcrumb',
     'ConsoleLogger',
     'ngCookies',
-    'ngResource'
+    'ngResource',
+    'angular-jwt'
 ]);
 
 altairApp.constant('variables', {
@@ -46,6 +47,81 @@ altairApp.config(function($breadcrumbProvider) {
 altairApp.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('rememberMeInterceptor');
 }]);
+
+altairApp.factory('rememberMeInterceptor', ['$q','$injector','$httpParamSerializer', function($q, $injector,$httpParamSerializer) {
+    var interceptor = {
+        responseError: function(response) {
+            console.log(response.status);
+            if (response.status == 401){
+                alert();
+                var $http = $injector.get('$http');
+                var $cookies = $injector.get('$cookies');
+                var deferred = $q.defer();
+
+                var refreshData = {grant_type:"refresh_token"};
+
+                var req = {
+                    method: 'POST',
+                    url: "oauth/token",
+                    headers: {"Content-type": "application/x-www-form-urlencoded; charset=utf-8"},
+                    data: $httpParamSerializer(refreshData)
+                }
+
+                $http(req).then(
+                    function(data){
+                        $http.defaults.headers.common.Authorization= 'Bearer ' + data.data.access_token;
+                        var expireDate = new Date (new Date().getTime() + (1000 * data.data.expires_in));
+                        $cookies.put("access_token", data.data.access_token, {'expires': expireDate});
+                        $cookies.put("validity", data.data.expires_in);
+                        window.location.href="index";
+                    },function(){
+                        console.log("error");
+                        $cookies.remove("access_token");
+                        window.location.href = "login";
+                    }
+                );
+
+                // make the backend call again and chain the request
+                return deferred.promise.then(function() {
+                    return $http(response.config);
+                });
+            }
+            return $q.reject(response);
+        }
+    };
+    return interceptor;
+}]);
+
+
+altairApp.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('rememberMeInterceptor');
+    $httpProvider.interceptors.push(['$q', '$location','$cookies','$rootScope', function($q, $location,$cookies,$rootScope) {
+
+        return {
+            'request': function (config) {
+                config.headers = config.headers || {};
+              //  console.log($cookies.get('access_token'));
+                if ($cookies.get('access_token')) {
+                    config.headers.Authorization = 'Bearer ' + $cookies.get('access_token');
+                }
+                else{
+                    $rootScope.sessionExpired=true;
+                    $location.path('/login');
+               //     $state.go('login');
+                }
+                return config;
+            },
+            'responseError': function(response) {
+                if(response.status === 401 || response.status === 403) {
+                    $location.path('/login');
+                }
+                return $q.reject(response);
+            }
+        };
+    }]);
+}]);
+
+
 
 
 /* detect IE */

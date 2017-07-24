@@ -12,9 +12,10 @@ altairApp
             }
         }
     ])
-    .factory('rememberMeInterceptor', ['$q','$injector','$httpParamSerializer', function($q, $injector,$httpParamSerializer,$state) {
+    .factory('rememberMeInterceptor', ['$q','$injector','$httpParamSerializer', function($q, $injector,$httpParamSerializer) {
         var interceptor = {
             responseError: function(response) {
+                console.log(response.status);
                 if (response.status == 401){
 
                     var $http = $injector.get('$http');

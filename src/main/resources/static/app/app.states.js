@@ -7,26 +7,6 @@ altairApp
         	
         	$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
-            $httpProvider.interceptors.push(['$q', '$location','$cookies', function($q, $location,$cookies) {
-
-                return {
-                    'request': function (config) {
-                        config.headers = config.headers || {};
-                        console.log($cookies.get('access_token'));
-                        if ($cookies.get('access_token')) {
-                            config.headers.Authorization = 'Bearer ' + $cookies.get('access_token');
-                        }
-                        return config;
-                    },
-                    'responseError': function(response) {
-                        if(response.status === 401 || response.status === 403) {
-                            $location.path('/login');
-                        }
-                        return $q.reject(response);
-                    }
-                };
-            }]);
-
             // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
             $urlRouterProvider
 	            .when('/dashboard', '/')
